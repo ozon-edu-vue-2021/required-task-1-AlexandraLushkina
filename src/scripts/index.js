@@ -39,7 +39,9 @@ const getPictures = function(page = 1, limit = 10) {
       renderPictures(result);
     })
     .catch(err => {
-      throw Error(`Error while getting pictures by URL: ${url}. Error message: ${err}`);
+      throw Error(
+        `Error while getting pictures by URL: ${url}. Error message: ${err}`
+      );
     });
 };
 
@@ -59,7 +61,9 @@ const getPictureInfo = function(id = 0) {
       renderPopupPicture(result);
     })
     .catch(err => {
-      throw Error(`Error while getting picture info by URL: ${url}. Error message: ${err}`);
+      throw Error(
+        `Error while getting picture info by URL: ${url}. Error message: ${err}`
+      );
     });
 };
 
