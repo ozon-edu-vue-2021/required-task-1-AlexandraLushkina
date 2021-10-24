@@ -30,12 +30,16 @@ const initialState = function() {
  */
 const getPictures = function(page = 1, limit = 10) {
   showLoader();
-  fetch(`https://picsum.photos/v2/list?page=${page};limit=${limit}`)
+  const url = `https://picsum.photos/v2/list?page=${page};limit=${limit}`;
+  fetch(url)
     .then(function(response) {
       return response.json();
     })
     .then(function(result) {
       renderPictures(result);
+    })
+    .catch(err => {
+      throw Error(`Error while getting pictures by URL: ${url}. Error message: ${err}`);
     });
 };
 
@@ -46,12 +50,16 @@ const getPictures = function(page = 1, limit = 10) {
  */
 const getPictureInfo = function(id = 0) {
   showLoader();
-  fetch(`https://picsum.photos/id/${id}/info`)
+  const url = `https://picsum.photos/id/${id}/info`;
+  fetch(url)
     .then(function(response) {
       return response.json();
     })
     .then(function(result) {
       renderPopupPicture(result);
+    })
+    .catch(err => {
+      throw Error(`Error while getting picture info by URL: ${url}. Error message: ${err}`);
     });
 };
 
@@ -160,7 +168,7 @@ const togglePopup = function() {
 const actionHandler = function(evt) {
   evt.preventDefault();
   const nextPage = evt.currentTarget.dataset.page;
-  evt.currentTarget.dataset.page = nextPage + 1;
+  evt.currentTarget.dataset.page = parseInt(nextPage) + 1;
 
   if (nextPage > MAX_PAGE_IMAGES) {
     console.warn(
@@ -180,9 +188,10 @@ const actionHandler = function(evt) {
  */
 const imageHandler = function(evt) {
   evt.preventDefault();
+  const linkTag = evt.target.closest("a");
 
-  if (evt.target.closest("a")) {
-    getPictureInfo(evt.target.closest("a").dataset.id);
+  if (linkTag) {
+    getPictureInfo(linkTag.dataset.id);
   }
 };
 
